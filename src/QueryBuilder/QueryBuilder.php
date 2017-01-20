@@ -23,8 +23,8 @@ class QueryBuilder
      * @var array
      */
     protected $operators = [
+        'query' => Instruction\Select::class,
 //        'create'  => Operator\Insert::class,
-'query' => Instruction\Select::class,
 //        'update'  => Operator\Update::class,
 //        'replace' => Operator\Replace::class,
 //        'delete'  => Operator\Delete::class,

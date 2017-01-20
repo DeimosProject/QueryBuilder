@@ -24,7 +24,8 @@ $query = $queryBuilder->query()
     ->join(['dept' => 'departments'])
         ->on('employee.deptId = dept.id')
 
-
+    ->groupBy('id')
+    ->orderBy('id')
 
     ->limit(50)
     ->offset(20);

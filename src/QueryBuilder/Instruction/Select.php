@@ -12,6 +12,9 @@ class Select extends Instruction
     use Operator\From;
     use Operator\Join;
 
+    use Operator\GroupBy;
+    use Operator\OrderBy;
+
     use Operator\Limit;
     use Operator\Offset;
 
