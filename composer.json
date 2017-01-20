@@ -1,0 +1,24 @@
+{
+  "name": "deimos/query-builder",
+  "description": "Deimos Query Builder.",
+  "keywords": [
+    "deimos",
+    "query builder",
+    "query",
+	"builder"
+  ],
+  "homepage": "https://github.com/DeimosProject/QueryBuilder",
+  "license": "MIT",
+  "type": "library",
+  "authors": [
+    {
+      "name": "rez1dent3",
+      "email": "maksim.babichev95@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Deimos\\": "src/"
+    }
+  }
+}
