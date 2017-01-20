@@ -17,7 +17,7 @@ trait Join
      *
      * @return Classes\Join
      */
-    public function join($table)
+    public function join(array $table)
     {
         /**
          * @var Select $select

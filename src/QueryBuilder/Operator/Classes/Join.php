@@ -29,7 +29,7 @@ class Join
      * @param Select $select
      * @param array  $table
      */
-    public function __construct($select, $table)
+    public function __construct($select, array $table)
     {
         $this->table  = $table;
         $this->select = $select;

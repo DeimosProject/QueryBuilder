@@ -13,6 +13,9 @@ class Select extends Instruction
     use Operator\Join;
 
     use Operator\GroupBy;
+
+    use Operator\Where;
+
     use Operator\OrderBy;
 
     use Operator\Limit;
