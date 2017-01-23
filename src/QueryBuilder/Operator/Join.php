@@ -23,7 +23,7 @@ trait Join
          * @var Select $select
          */
         $select = $this;
-        $join   = new Classes\Join($select, $table);
+        $join   = new Classes\Join($select, $this->builder, $table);
 
         return ($this->storageJoin[] = $join);
     }
@@ -34,6 +34,27 @@ trait Join
     protected function storageJoin()
     {
         return $this->storageJoin;
+    }
+
+    /**
+     * @param array $storage
+     *
+     * @return string
+     */
+    protected function buildJoin($storage)
+    {
+        $results = [];
+
+        foreach ($storage as $join)
+        {
+            /**
+             * @var Classes\Join $join
+             */
+            $results[] = (string)$join;
+            $this->push($join->attributes());
+        }
+
+        return implode(' ', $results);
     }
 
 }

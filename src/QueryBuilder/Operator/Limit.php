@@ -30,4 +30,26 @@ trait Limit
         return $this->storageLimit;
     }
 
+    protected function buildLimit($limit)
+    {
+        if (method_exists($this, 'storageOffset'))
+        {
+            $offset = $this->storageOffset();
+
+            if ($limit === null)
+            {
+                if ($offset === null)
+                {
+                    return '';
+                }
+
+                $limit = '18446744073709551615';
+            }
+
+            return $offset . ', ' . $limit;
+        }
+
+        return $this->storageLimit();
+    }
+
 }

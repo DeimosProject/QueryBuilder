@@ -27,4 +27,9 @@ interface Adapter
      */
     public function quote($string);
 
+    /**
+     * @return \PDO
+     */
+    public function connection();
+
 }

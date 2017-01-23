@@ -10,6 +10,9 @@ use Deimos\QueryBuilder\Exceptions\NotFound;
  * @package Deimos\QueryBuilder
  *
  * @method Instruction\Select query()
+ * @method Instruction\Insert create()
+ * @method Instruction\Update update()
+ * @method Instruction\Delete delete()
  */
 class QueryBuilder
 {
@@ -23,12 +26,10 @@ class QueryBuilder
      * @var array
      */
     protected $operators = [
-        'query' => Instruction\Select::class,
-//        'create'  => Operator\Insert::class,
-//        'update'  => Operator\Update::class,
-//        'replace' => Operator\Replace::class,
-//        'delete'  => Operator\Delete::class,
-//        'drop'    => Operator\Drop::class,
+        'query'  => Instruction\Select::class,
+        'create' => Instruction\Insert::class,
+        'update' => Instruction\Update::class,
+        'delete' => Instruction\Delete::class,
     ];
 
     /**
@@ -58,7 +59,26 @@ class QueryBuilder
 
         $class = $this->operators[$name];
 
-        return new $class($this, $this->adapter);
+        return new $class($this);
+    }
+
+    /**
+     * @param string $sql
+     * @param array  $attributes
+     *
+     * @return RawQuery
+     */
+    public function raw($sql, array $attributes = [])
+    {
+        return new RawQuery($sql, $attributes);
+    }
+
+    /**
+     * @return Adapter
+     */
+    public function adapter()
+    {
+        return $this->adapter;
     }
 
 }

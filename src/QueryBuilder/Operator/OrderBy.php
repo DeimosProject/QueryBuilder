@@ -33,4 +33,27 @@ trait OrderBy
         return $this->storageOrderBy;
     }
 
+    protected function buildOrderBy()
+    {
+        $list = [];
+
+        foreach ($this->storageOrderBy as $item)
+        {
+            $field = $item[0];
+
+            if ($field instanceof RawQuery)
+            {
+                $this->push($field->attributes());
+            }
+            else
+            {
+                $field = $this->builder->adapter()->quote($field);
+            }
+
+            $list[] = $field . ' ' . $item[1];
+        }
+
+        return implode(', ', $list);
+    }
+
 }

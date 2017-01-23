@@ -15,15 +15,38 @@ class Select extends Instruction
     use Operator\GroupBy;
 
     use Operator\Where;
+    use Operator\Having;
 
     use Operator\OrderBy;
 
     use Operator\Limit;
     use Operator\Offset;
 
-    public function __toString()
+    /**
+     * @return array
+     */
+    protected function &defaults()
     {
-        return __METHOD__;
+        return [
+            'select' => '*'
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function operators()
+    {
+        return [
+            'select'  => 'SELECT',
+            'from'    => 'FROM',
+            'join'    => '',
+            'where'   => 'WHERE',
+            'groupBy' => 'GROUP BY',
+            'having'  => 'HAVING',
+            'orderBy' => 'ORDER BY',
+            'limit'   => 'LIMIT',
+        ];
     }
 
 }
