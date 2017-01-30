@@ -16,7 +16,7 @@ class MySQL extends AbstractAdapter
             $this->name(),
             $this->host(),
             $this->port(),
-            $this->database()
+            $this->dbName()
         );
     }
 
