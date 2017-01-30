@@ -32,4 +32,19 @@ interface Adapter
      */
     public function connection();
 
+    /**
+     * @return string
+     */
+    public function name();
+
+    /**
+     * @return string
+     */
+    public function port();
+
+    /**
+     * @return string
+     */
+    public function host();
+
 }

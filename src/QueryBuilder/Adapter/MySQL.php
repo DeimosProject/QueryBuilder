@@ -49,4 +49,28 @@ class MySQL implements Adapter
         return '`' . $string . '`';
     }
 
+    /**
+     * @return string
+     */
+    public function name()
+    {
+        return 'mysql';
+    }
+
+    /**
+     * @return string
+     */
+    public function port()
+    {
+        return 3306;
+    }
+
+    /**
+     * @return string
+     */
+    public function host()
+    {
+        return 'localhost';
+    }
+
 }
