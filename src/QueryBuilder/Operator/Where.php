@@ -93,7 +93,7 @@ trait Where
 
         if ($args[1 + $equal] instanceof RawQuery || $args[1 + $equal] instanceof Select)
         {
-            $_value = (string)$args[1 + $equal];
+            $_value = '(' . (string)$args[1 + $equal] . ')';
             $raw    = true;
             $this->push($args[1 + $equal]->attributes());
         }
