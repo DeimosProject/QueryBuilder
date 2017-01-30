@@ -7,20 +7,26 @@ use Deimos\QueryBuilder\AbstractAdapter;
 class MySQL extends AbstractAdapter
 {
 
-    /**
-     * @return array
-     */
-    public function listColumns()
+    protected $host = 'localhost';
+    protected $port = 3306;
+
+    public function dsn()
     {
-        return [];
+        return sprintf(
+            '%s:host=%s;port=%s;dbname=%s',
+            $this->name(),
+            $this->host(),
+            $this->port(),
+            $this->database()
+        );
     }
 
     /**
-     * @return int
+     * @return array
      */
-    public function insertId()
+    public function columns()
     {
-        return $this->connection()->lastInsertId();
+        return [];
     }
 
     /**
@@ -39,22 +45,6 @@ class MySQL extends AbstractAdapter
     public function name()
     {
         return 'mysql';
-    }
-
-    /**
-     * @return string
-     */
-    public function port()
-    {
-        return 3306;
-    }
-
-    /**
-     * @return string
-     */
-    public function host()
-    {
-        return 'localhost';
     }
 
 }

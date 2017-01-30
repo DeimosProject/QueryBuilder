@@ -8,7 +8,7 @@ interface Adapter
     /**
      * @return array
      */
-    public function listColumns();
+    public function columns();
 
     /**
      * @return int
@@ -25,7 +25,7 @@ interface Adapter
     /**
      * @return \PDO
      */
-    public function connection();
+    public function database();
 
     /**
      * @return string
@@ -41,5 +41,10 @@ interface Adapter
      * @return string
      */
     public function host();
+
+    /**
+     * @return string
+     */
+    public function dsn();
 
 }
