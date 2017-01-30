@@ -16,11 +16,6 @@ interface Adapter
     public function insertId();
 
     /**
-     * @return string
-     */
-    public function dsn();
-
-    /**
      * @param string $string
      *
      * @return string

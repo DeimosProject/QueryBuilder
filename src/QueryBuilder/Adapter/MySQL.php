@@ -2,9 +2,9 @@
 
 namespace Deimos\QueryBuilder\Adapter;
 
-use Deimos\QueryBuilder\Adapter;
+use Deimos\QueryBuilder\AbstractAdapter;
 
-class MySQL implements Adapter
+class MySQL extends AbstractAdapter
 {
 
     /**
@@ -21,22 +21,6 @@ class MySQL implements Adapter
     public function insertId()
     {
         return $this->connection()->lastInsertId();
-    }
-
-    /**
-     * @return \PDO
-     */
-    public function connection()
-    {
-        return null;
-    }
-
-    /**
-     * @return string
-     */
-    public function dsn()
-    {
-        return '';
     }
 
     /**
