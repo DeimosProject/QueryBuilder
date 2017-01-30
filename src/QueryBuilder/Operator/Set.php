@@ -56,18 +56,18 @@ trait Set
 
         foreach ($data as $field => $value)
         {
-            $_value = $value;
-            $quote  = true;
+            $_value = '?';
+            $notQuery  = true;
             if ($value instanceof RawQuery)
             {
                 $_value = (string)$value;
-                $quote  = false;
+                $notQuery  = false;
                 $this->push($value->attributes());
             }
 
-            if ($quote)
+            if ($notQuery)
             {
-                $_value = $this->builder->adapter()->quote($_value);
+                $this->push([$value]);
             }
 
             $list[] = $this->builder->adapter()->quote($field) . ' = ' . $_value;
