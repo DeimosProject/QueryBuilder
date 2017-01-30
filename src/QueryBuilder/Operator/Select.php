@@ -17,6 +17,23 @@ trait Select
      *
      * @return static
      */
+    public function setSelect(...$fields)
+    {
+        $this->storageSelect = [];
+
+        foreach ($fields as $field)
+        {
+            $this->select($field);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param array ...$fields
+     *
+     * @return static
+     */
     public function select(...$fields)
     {
         foreach ($fields as $field)
