@@ -31,6 +31,33 @@ abstract class Instruction
     }
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        $this->attributes = [];
+        $sql              = [];
+
+        foreach ($this->operators() as $operator => $strict)
+        {
+            $data  = $this->getStorage($operator);
+            $build = $this->build($operator, $data);
+
+            if (!empty($build))
+            {
+                $sql[] = $strict . ' ' . $build;
+            }
+        }
+
+        return implode(' ', $sql);
+    }
+
+    /**
+     * @return array
+     */
+    abstract protected function operators();
+
+    /**
      * @param string $name
      *
      * @return array
@@ -55,28 +82,11 @@ abstract class Instruction
     }
 
     /**
-     * @param array $attributes
+     * @return array
      */
-    protected function push(array $attributes)
+    protected function &defaults()
     {
-        $this->attributes = array_merge($this->attributes, $attributes);
-    }
-
-    /**
-     * @param $value
-     * @param $quote
-     */
-    protected function buildRAW(&$value, &$quote)
-    {
-
-        if ($value instanceof RawQuery || $value instanceof self)
-        {
-            $this->push($value->attributes());
-            $quote = false;
-
-            $value = '(' . (string)$value . ')';
-        }
-
+        return [];
     }
 
     /**
@@ -124,25 +134,28 @@ abstract class Instruction
     }
 
     /**
-     * @return string
+     * @param $value
+     * @param $quote
      */
-    public function __toString()
+    protected function buildRAW(&$value, &$quote)
     {
-        $this->attributes = [];
-        $sql              = [];
 
-        foreach ($this->operators() as $operator => $strict)
+        if ($value instanceof RawQuery || $value instanceof self)
         {
-            $data  = $this->getStorage($operator);
-            $build = $this->build($operator, $data);
+            $this->push($value->attributes());
+            $quote = false;
 
-            if (!empty($build))
-            {
-                $sql[] = $strict . ' ' . $build;
-            }
+            $value = '(' . (string)$value . ')';
         }
 
-        return implode(' ', $sql);
+    }
+
+    /**
+     * @param array $attributes
+     */
+    protected function push(array $attributes)
+    {
+        $this->attributes = array_merge($this->attributes, $attributes);
     }
 
     /**
@@ -152,18 +165,5 @@ abstract class Instruction
     {
         return $this->attributes;
     }
-
-    /**
-     * @return array
-     */
-    protected function &defaults()
-    {
-        return [];
-    }
-
-    /**
-     * @return array
-     */
-    abstract protected function operators();
 
 }

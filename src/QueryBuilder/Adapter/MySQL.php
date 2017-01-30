@@ -8,14 +8,6 @@ class MySQL implements Adapter
 {
 
     /**
-     * @return \PDO
-     */
-    public function connection()
-    {
-        return null;
-    }
-
-    /**
      * @return array
      */
     public function listColumns()
@@ -29,6 +21,14 @@ class MySQL implements Adapter
     public function insertId()
     {
         return $this->connection()->lastInsertId();
+    }
+
+    /**
+     * @return \PDO
+     */
+    public function connection()
+    {
+        return null;
     }
 
     /**

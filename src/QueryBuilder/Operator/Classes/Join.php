@@ -108,14 +108,6 @@ class Join
         return $this->select;
     }
 
-    /**
-     * @return array
-     */
-    public function getTable()
-    {
-        return $this->table;
-    }
-
     public function attributes()
     {
         $table = current($this->table);
@@ -141,6 +133,14 @@ class Join
             $this->builder->adapter()->quote($alias) . ' ON ' .
             $this->query;
 
+    }
+
+    /**
+     * @return array
+     */
+    public function getTable()
+    {
+        return $this->table;
     }
 
 }

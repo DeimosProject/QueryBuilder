@@ -13,12 +13,11 @@ use Deimos\QueryBuilder\RawQuery;
 trait Where
 {
 
+    protected $allowOperator;
     /**
      * @var array
      */
     private $storageWhere = [];
-
-    protected $allowOperator;
 
     /**
      * @param array ...$fields
@@ -123,40 +122,24 @@ trait Where
         return implode(' ', $list);
     }
 
-    /**
-     * @param array  $storage
-     * @param string $toStorage
-     */
-    protected function buildIf2String(array $storage, &$toStorage)
+    protected function buildWhere($storage)
     {
-        $toStorage .= '(';
-        $lastOperator = '';
+        /**
+         * @var array $where
+         */
+        $where = $this->buildWhereOperator($storage);
 
-        foreach ($storage as $key => $value)
+        // fixme: $where = [$where];
+        if (!is_array($where[0]))
         {
-            if (is_string($value[0]))
-            {
-                $this->allowOperator = true;
-                $lastOperator        = $value[0];
-                if ($key)
-                {
-                    $toStorage .= ' ' . $lastOperator . ' ';
-                }
-
-                $toStorage .= ' (' . $value[1] . ') ';
-            }
-            else
-            {
-                if ($this->allowOperator)
-                {
-                    $toStorage .= ' ' . $lastOperator . ' ';
-                }
-
-                $this->buildIf2String($value, $toStorage);
-            }
+            $where = [$where];
         }
 
-        $toStorage .= ')';
+        $sql                 = '';
+        $this->allowOperator = false;
+        $this->buildIf2String($where, $sql);
+
+        return $sql;
     }
 
     /**
@@ -195,24 +178,40 @@ trait Where
         return $storage;
     }
 
-    protected function buildWhere($storage)
+    /**
+     * @param array  $storage
+     * @param string $toStorage
+     */
+    protected function buildIf2String(array $storage, &$toStorage)
     {
-        /**
-         * @var array $where
-         */
-        $where = $this->buildWhereOperator($storage);
+        $toStorage .= '(';
+        $lastOperator = '';
 
-        // fixme: $where = [$where];
-        if (!is_array($where[0]))
+        foreach ($storage as $key => $value)
         {
-            $where = [$where];
+            if (is_string($value[0]))
+            {
+                $this->allowOperator = true;
+                $lastOperator        = $value[0];
+                if ($key)
+                {
+                    $toStorage .= ' ' . $lastOperator . ' ';
+                }
+
+                $toStorage .= ' (' . $value[1] . ') ';
+            }
+            else
+            {
+                if ($this->allowOperator)
+                {
+                    $toStorage .= ' ' . $lastOperator . ' ';
+                }
+
+                $this->buildIf2String($value, $toStorage);
+            }
         }
 
-        $sql                 = '';
-        $this->allowOperator = false;
-        $this->buildIf2String($where, $sql);
-
-        return $sql;
+        $toStorage .= ')';
     }
 
 }

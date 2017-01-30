@@ -19,8 +19,8 @@ class Insert extends Instruction
     protected function operators()
     {
         return [
-            'from'       => 'INSERT INTO',
-            'values'     => '',
+            'from'   => 'INSERT INTO',
+            'values' => '',
         ];
     }
 

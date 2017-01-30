@@ -2,8 +2,6 @@
 
 namespace Deimos\QueryBuilder\Operator;
 
-use Deimos\QueryBuilder\RawQuery;
-
 /**
  * Class Having
  *

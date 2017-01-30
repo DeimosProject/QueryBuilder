@@ -22,14 +22,6 @@ trait Limit
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    protected function storageLimit()
-    {
-        return $this->storageLimit;
-    }
-
     protected function buildLimit($limit)
     {
         if (method_exists($this, 'storageOffset'))
@@ -50,6 +42,14 @@ trait Limit
         }
 
         return $this->storageLimit();
+    }
+
+    /**
+     * @return int
+     */
+    protected function storageLimit()
+    {
+        return $this->storageLimit;
     }
 
 }
