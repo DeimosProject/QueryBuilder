@@ -38,7 +38,7 @@ trait Limit
                 $limit = '18446744073709551615';
             }
 
-            return $offset . ', ' . $limit;
+            return $offset ? $offset . ', ' : '' . $limit;
         }
 
         return $this->storageLimit();
