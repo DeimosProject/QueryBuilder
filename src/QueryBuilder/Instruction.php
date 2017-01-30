@@ -16,6 +16,11 @@ abstract class Instruction
     protected $builder;
 
     /**
+     * @var bool
+     */
+    protected $alias = true;
+
+    /**
      * Instruction constructor.
      *
      * @param QueryBuilder $builder
@@ -105,7 +110,10 @@ abstract class Instruction
                     }
 
                     $result[] = $value .
-                        (!is_int($key) ? ' AS ' . $this->builder->adapter()->quote($key) : '');
+                        (!is_int($key) && $this->alias ?
+                            ' AS ' . $this->builder->adapter()->quote($key)
+                            : ''
+                        );
                 }
 
                 return implode(', ', $result);
@@ -134,7 +142,7 @@ abstract class Instruction
             }
         }
 
-        return implode("\n", $sql);
+        return implode(' ', $sql);
     }
 
     /**

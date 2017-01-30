@@ -2,6 +2,8 @@
 
 namespace Deimos\QueryBuilder\Operator;
 
+use Deimos\QueryBuilder\RawQuery;
+
 /**
  * Class Having
  *
@@ -72,6 +74,25 @@ trait Having
     protected function storageHaving()
     {
         return $this->storageHaving;
+    }
+
+    /**
+     * @param $storage
+     *
+     * @return string
+     */
+    protected function buildHaving($storage)
+    {
+        /**
+         * @var array $where
+         */
+        $having = $this->buildWhereOperator($storage);
+
+        $sql                 = '';
+        $this->allowOperator = false;
+        $this->buildIf2String($having, $sql);
+
+        return $sql;
     }
 
 }

@@ -2,6 +2,8 @@
 
 namespace Deimos\QueryBuilder\Operator;
 
+use Deimos\QueryBuilder\Exceptions\NotFound;
+
 trait Select
 {
 
@@ -23,6 +25,11 @@ trait Select
             {
                 $this->storageSelect[$field] = $field;
                 continue;
+            }
+
+            if (is_object($field))
+            {
+                throw new NotFound('Alias for parameter `' . $field . '` not found');
             }
 
             $key  = key($field);

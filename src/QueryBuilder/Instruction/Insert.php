@@ -9,7 +9,9 @@ class Insert extends Instruction
 {
 
     use Operator\From;
-    use Operator\Set;
+    use Operator\Values;
+
+    protected $alias = false;
 
     /**
      * @return  array
@@ -17,11 +19,8 @@ class Insert extends Instruction
     protected function operators()
     {
         return [
-            'from'    => 'INSERT',
-            'set'     => 'SET',
-            'where'   => 'WHERE',
-            'orderBy' => 'ORDER BY',
-            'limit'   => 'LIMIT'
+            'from'       => 'INSERT INTO',
+            'values'     => '',
         ];
     }
 

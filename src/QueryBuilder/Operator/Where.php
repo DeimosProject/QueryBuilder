@@ -2,6 +2,7 @@
 
 namespace Deimos\QueryBuilder\Operator;
 
+use Deimos\QueryBuilder\Instruction\Select;
 use Deimos\QueryBuilder\RawQuery;
 
 /**
@@ -39,7 +40,7 @@ trait Where
     {
         $count = count($fields);
 
-        if ($count < 2 || $count > 3)
+        if ($count < 1 || $count > 3)
         {
             $fields = var_export($fields, true);
             throw new \InvalidArgumentException($fields);
@@ -91,7 +92,7 @@ trait Where
         $_value = $args[1 + $equal];
         $raw    = false;
 
-        if ($args[1 + $equal] instanceof RawQuery)
+        if ($args[1 + $equal] instanceof RawQuery || $args[1 + $equal] instanceof Select)
         {
             $_value = (string)$args[1 + $equal];
             $raw    = true;
@@ -130,6 +131,7 @@ trait Where
     {
         $toStorage .= '(';
         $lastOperator = '';
+
         foreach ($storage as $key => $value)
         {
             if (is_string($value[0]))
@@ -153,6 +155,7 @@ trait Where
                 $this->buildIf2String($value, $toStorage);
             }
         }
+
         $toStorage .= ')';
     }
 
@@ -167,6 +170,7 @@ trait Where
         $storage  = [];
         $key      = key($args);
         $operator = is_string($key) ? $key : $defaultOperator;
+
         foreach ($args as $arg)
         {
             $isArray = is_array(current($arg));
@@ -182,6 +186,7 @@ trait Where
                 ];
             }
         }
+
         if (count($storage) === 1)
         {
             return current($storage);
@@ -196,6 +201,12 @@ trait Where
          * @var array $where
          */
         $where = $this->buildWhereOperator($storage);
+
+        // fixme: $where = [$where];
+        if (!is_array($where[0]))
+        {
+            $where = [$where];
+        }
 
         $sql                 = '';
         $this->allowOperator = false;

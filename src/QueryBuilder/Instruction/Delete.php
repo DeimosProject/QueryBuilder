@@ -10,7 +10,9 @@ class Delete extends Instruction
 
     use Operator\From;
     use Operator\Where;
-    use Operator\Where;
+    use Operator\Limit;
+
+    protected $alias = false;
 
     /**
      * @return  array

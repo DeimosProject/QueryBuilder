@@ -14,6 +14,8 @@ class Update extends Instruction
     use Operator\OrderBy;
     use Operator\Limit;
 
+    protected $alias = false;
+
     /**
      * @return array
      */

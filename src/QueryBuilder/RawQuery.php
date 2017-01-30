@@ -32,7 +32,7 @@ class RawQuery
      */
     public function __toString()
     {
-        return $this->sql;
+        return (string)$this->sql;
     }
 
     /**
