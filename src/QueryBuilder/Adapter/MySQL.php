@@ -7,7 +7,6 @@ use Deimos\QueryBuilder\AbstractAdapter;
 class MySQL extends AbstractAdapter
 {
 
-    protected $host = 'localhost';
     protected $port = 3306;
 
     public function dsn()

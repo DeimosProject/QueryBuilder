@@ -21,6 +21,16 @@ abstract class AbstractAdapter implements Adapter
     protected $dbName;
 
     /**
+     * @var string
+     */
+    protected $class;
+
+    /**
+     * @var \PDO
+     */
+    protected $pdo;
+
+    /**
      * @var \Deimos\Database\Database
      */
     protected $database;
@@ -30,7 +40,7 @@ abstract class AbstractAdapter implements Adapter
      *
      * @return static
      */
-    public function setConnection(\PDO $database)
+    public function setConnection($database)
     {
         $this->database = $database;
 
@@ -83,6 +93,18 @@ abstract class AbstractAdapter implements Adapter
     }
 
     /**
+     * @param string $class
+     *
+     * @return static
+     */
+    public function setPDOClass($class)
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function insertId()
@@ -99,6 +121,25 @@ abstract class AbstractAdapter implements Adapter
     public function database()
     {
         return $this->database;
+    }
+
+    /**
+     * @param string $login
+     * @param string $password
+     *
+     * @return \PDO
+     */
+    public function connection($login, $password)
+    {
+        if ($this->pdo)
+        {
+            throw new \BadFunctionCallException(__METHOD__);
+        }
+
+        $class     = $this->class;
+        $this->pdo = new $class($this->dsn(), $login, $password);
+
+        return $this->pdo;
     }
 
     /**

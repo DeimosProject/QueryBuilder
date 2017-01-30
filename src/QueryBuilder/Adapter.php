@@ -23,7 +23,7 @@ interface Adapter
     public function quote($string);
 
     /**
-     * @return \PDO
+     * @return \Deimos\Database\Database
      */
     public function database();
 
