@@ -2,8 +2,6 @@
 
 namespace Deimos\QueryBuilder\Operator;
 
-use Deimos\QueryBuilder\Instruction\Select;
-
 trait Join
 {
 
@@ -20,7 +18,7 @@ trait Join
     public function join(array $table)
     {
         /**
-         * @var Select $select
+         * @var \Deimos\QueryBuilder\Instruction\Select $select
          */
         $select = $this;
         $join   = new Classes\Join($select, $this->builder, $table);
