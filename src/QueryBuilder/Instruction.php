@@ -62,7 +62,7 @@ abstract class Instruction
      *
      * @return array
      */
-    public function getStorage($name)
+    protected function getStorage($name)
     {
         $nameStorage = 'storage' . ucfirst($name);
         $data        = $this->{$nameStorage}();
@@ -86,7 +86,9 @@ abstract class Instruction
      */
     protected function &defaults()
     {
-        return [];
+        $_ = [];
+
+        return $_;
     }
 
     /**

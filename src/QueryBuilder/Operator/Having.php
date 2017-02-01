@@ -35,7 +35,7 @@ trait Having
     {
         $count = count($fields);
 
-        if ($count < 2 || $count > 3)
+        if ($count < 1 || $count > 3)
         {
             $fields = var_export($fields, true);
             throw new \InvalidArgumentException($fields);

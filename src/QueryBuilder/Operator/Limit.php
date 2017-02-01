@@ -28,16 +28,6 @@ trait Limit
         {
             $offset = $this->storageOffset();
 
-            if ($limit === null)
-            {
-                if ($offset === null)
-                {
-                    return '';
-                }
-
-                $limit = '18446744073709551615';
-            }
-
             return $offset ? $offset . ', ' : '' . $limit;
         }
 

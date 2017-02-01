@@ -13,17 +13,17 @@ trait Select
     private $storageSelect = [];
 
     /**
-     * @param array ...$fields
+     * @param array $fields
      *
      * @return static
      */
-    public function setSelect(...$fields)
+    public function setSelect(array $fields)
     {
         $this->storageSelect = [];
 
-        foreach ($fields as $field)
+        foreach ($fields as $key => $field)
         {
-            $this->select($field);
+            $this->select([$key => $field]);
         }
 
         return $this;

@@ -27,9 +27,11 @@ class Select extends Instruction
      */
     protected function &defaults()
     {
-        return [
+        $_ = [
             'select' => '*'
         ];
+
+        return $_;
     }
 
     /**
