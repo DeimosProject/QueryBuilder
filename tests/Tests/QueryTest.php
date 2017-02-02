@@ -22,9 +22,14 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string (update,create,insert, etc)
      */
-    private $instruction;
+    private $instructionMethod;
 
     private $operatorWhere = 'where';
+
+    /**
+     * @var \Deimos\QueryBuilder\Operator\From
+     */
+    private $instruction;
 
     /**
      * @param string $method
@@ -41,8 +46,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
          */
         $query = $qb->$method();
 
-        if($this->instruction !== 'insert')
-        {
+        if ($this->instructionMethod !== 'insert') {
 
             $query
                 ->{$this->operatorWhere}('id', 5)
@@ -58,8 +62,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
                 ->limit(__LINE__);
         }
 
-        if($this->instruction === 'select')
-        {
+        if ($this->instructionMethod === 'select') {
             $query
                 ->offset($this->call++ ? __LINE__ : null)
                 ->orderBy('id', 'DESC')
@@ -77,21 +80,20 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     protected function methodTest($method, $from = 'FROM')
     {
-        $instruction = $this->prepare($method);
+        $this->instruction = $this->prepare($method);
 
-        $str = $this->splitQuotes((string)$instruction);
+        $str = $this->splitQuotes((string)$this->instruction);
 
         preg_match('~' . $this->regexp[0] . '~', $str, $testArray);
 
         unset($testArray[0]);
         $this->assertEquals(
             $testArray,
-            [strtoupper($this->instruction), $from, $this->table],
+            [strtoupper($this->instructionMethod), $from, $this->table],
             '', 0.0, 10, true
         );
 
-        if($this->instruction != 'insert')
-        {
+        if ($this->instructionMethod != 'insert') {
             preg_match_all('~' . $this->regexp[1] . '~', $str, $testArray);
             unset($testArray[0]);
             $this->assertEquals(
@@ -116,31 +118,47 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
     public function testDelete()
     {
-        $this->instruction = 'delete';
+        $this->instructionMethod = 'delete';
         $this->methodTest('delete');
     }
 
     public function testUpdate()
     {
-        $this->instruction = 'update';
+        $this->instructionMethod = 'update';
         $this->methodTest('update', '');
 
         $Q = $this->prepare('update');
 
         $Q->set('field', 'value');
+        $Q->set('name', 'Alex');
 
-        var_dump((string)$Q);
+        preg_match('~UPDATE\s+\w+\s+SET\s+(\w+)\s*=\s*\?,\s*(\w+)\s*=\s*\?\s*WHERE.*~', $this->splitQuotes((string)$Q), $matches);
+        unset($matches[0]);
+
+        $this->assertEquals(
+            $matches,
+            [1 => 'field', 2 => 'name']
+        );
+
     }
 
     public function testInsert()
     {
-        $this->instruction = 'insert';
+        $this->instructionMethod = 'insert';
         $this->methodTest('create', 'INTO');
+
+        $this->instruction->value('firld', 'value');
+        $this->instruction->value('name', 'value');
+
+        $this->assertRegExp(
+            '~INSERT\s+INTO\s+\w+\s+\((\w+)\s*,\s*(\w+)\s*\)\s*VALUES\s*\(\s*\?\s*,\s*\?\s*\)~',
+            $this->splitQuotes((string)$this->instruction)
+        );
     }
 
     public function testSelect()
     {
-        $this->instruction = 'select';
+        $this->instructionMethod = 'select';
         $Q = $this->prepare('query');
 
         $this->assertRegExp(
@@ -153,7 +171,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSelectEmpty()
     {
-        $this->instruction = 'select';
+        $this->instructionMethod = 'select';
 
         $Q = $this->prepare('query');
 
@@ -168,7 +186,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSelectLiveHack()
     {
-        $this->instruction = 'select';
+        $this->instructionMethod = 'select';
 
         $Q = $this->prepare('query');
 
@@ -180,7 +198,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSelectNotFound()
     {
-        $this->instruction = 'select';
+        $this->instructionMethod = 'select';
 
         $Q = $this->prepare('query');
 
@@ -253,6 +271,76 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             '~SELECT.*\s+FROM\s+(\w+)\sAS\s(?<alias>\w+)\s+(LEFT|RIGHT|INNER)?\s+JOIN\s+(\w+)\s+AS\s+(?<key>\w+)\s+ON\s+(\k<alias>).*=\s+(\k<key>).*~',
             $this->splitQuotes($str)
         );
+    }
+
+    public function testValues()
+    {
+        $this->instructionMethod = 'select';
+
+        $instruction = $this->prepare('query');
+
+        $str = $this->splitQuotes((string)$instruction);
+
+        $this->validateBrackets($str);
+    }
+
+    /**
+     * @param $code
+     * @return bool
+     * @throws \Exception
+     */
+    private function validateBrackets($code)
+    {
+
+        $stack = array();
+        $pair = array(
+            '(' => ')',
+            '[' => ']',
+            '{' => '}',
+        );
+
+        $code = (string)$code;
+
+        $len = strlen($code);
+
+        $i = 0;
+        while($i < $len)
+        {
+
+            $ch = $code[$i];
+            switch ($ch)
+            {
+                case '(':
+                case '[':
+                case '{':
+                    array_push($stack, $pair[$ch]);
+                    break;
+
+                case ')':
+                case ']':
+                case '}':
+                    if (!$stack)
+                    {
+                        throw new \Exception('Закрывающая "' . $ch . '", когда нечего закрывать');
+                    }
+
+                    if ($ch != end($stack))
+                    {
+                        throw new \Exception('Ожидалось "' . end($stack) . '", но внезапно "' . $ch . '"');
+                    }
+
+                    array_pop($stack);
+            }
+
+            $i++;
+        }
+
+        if ($stack)
+        {
+            throw new \Exception('В конце остались незакрыты: "' . implode('", "', array_reverse($stack)) . '"');
+        }
+
+        return true;
     }
 
 }
