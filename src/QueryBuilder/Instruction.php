@@ -147,7 +147,7 @@ abstract class Instruction
             $this->push($value->attributes());
             $quote = false;
 
-            $value = '(' . (string)$value . ')';
+            $value = (string)$value;
         }
 
     }
