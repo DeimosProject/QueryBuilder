@@ -92,7 +92,11 @@ class Join
      */
     public function on($first, $second)
     {
-        return $this->raw($first . ' = ' . $second);
+        return $this->raw(
+            $this->builder->adapter()->quote($first) 
+            . ' = ' .
+            $this->builder->adapter()->quote($second)
+        );
     }
 
     /**
