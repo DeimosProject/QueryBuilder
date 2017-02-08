@@ -23,7 +23,7 @@ class RawQuery
      */
     public function __construct($sql, array $attributes = [])
     {
-        $this->sql        = $sql;
+        $this->sql        = '(' . $sql . ')';
         $this->attributes = $attributes;
     }
 
