@@ -28,7 +28,7 @@ trait Limit
         {
             $offset = $this->storageOffset();
 
-            return $offset ? $offset . ', ' . $limit : '' . $limit;
+            return ($offset ? $offset . ', ' : '') . $limit;
         }
 
         return $limit;
