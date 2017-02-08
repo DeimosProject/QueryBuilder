@@ -35,7 +35,7 @@ class MySQL extends AbstractAdapter
      */
     public function quote($string)
     {
-        return '`' . $string . '`';
+        return '`' . str_replace('.', '`.`', $string) . '`';
     }
 
     /**
