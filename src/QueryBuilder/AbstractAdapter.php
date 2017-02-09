@@ -126,10 +126,11 @@ abstract class AbstractAdapter implements Adapter
     /**
      * @param string $username
      * @param string $password
+     * @param array  $options
      *
      * @return \PDO
      */
-    public function connection($username, $password)
+    public function connection($username, $password, array $options)
     {
         if ($this->pdo)
         {
@@ -137,7 +138,7 @@ abstract class AbstractAdapter implements Adapter
         }
 
         $class     = $this->class;
-        $this->pdo = new $class($this->dsn(), $username, $password);
+        $this->pdo = new $class($this->dsn(), $username, $password, $options);
 
         return $this->pdo;
     }
