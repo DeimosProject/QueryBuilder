@@ -268,7 +268,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             ->on('deimos.deptOldId', 'deptOld.id');
 
         $this->assertRegExp(
-            '~SELECT.*\s+FROM\s+(\w+)\sAS\s(?<alias>\w+)\s+(LEFT|RIGHT|INNER)?\s+JOIN\s+(\w+)\s+AS\s+(?<key>\w+)\s+ON\s+(\k<alias>).*=\s+(\k<key>).*~',
+            '~SELECT.*\s+FROM\s+(\w+)\sAS\s(?<alias>\w+)\s+(LEFT|RIGHT|INNER)?\s+JOIN\s+(\w+)\s+AS\s+(?<key>\w+)\s+ON\s+\(?(\k<alias>).*=\s+(\k<key>).*~',
             $this->splitQuotes($str)
         );
     }
