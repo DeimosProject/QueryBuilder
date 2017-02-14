@@ -54,7 +54,7 @@ class SQLite extends AbstractAdapter
      */
     public function quote($string)
     {
-        return '"' . str_replace('.', '"."', $string) . '"';
+        return $string; //'"' . str_replace('.', '"."', $string) . '"';
     }
 
     /**
