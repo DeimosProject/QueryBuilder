@@ -2,7 +2,7 @@
 
 namespace Deimos\QueryBuilder\Operator;
 
-use Deimos\QueryBuilder\Instruction\Select;
+use Deimos\QueryBuilder\Instruction\Select as InstructionSelect;
 use Deimos\QueryBuilder\RawQuery;
 
 /**
@@ -91,7 +91,7 @@ trait Where
         $_value = $args[1 + $equal];
         $raw    = false;
 
-        if ($args[1 + $equal] instanceof RawQuery || $args[1 + $equal] instanceof Select)
+        if ($args[1 + $equal] instanceof RawQuery || $args[1 + $equal] instanceof InstructionSelect)
         {
             $_value = '(' . (string)$args[1 + $equal] . ')';
             $raw    = true;
