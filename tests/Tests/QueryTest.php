@@ -6,7 +6,7 @@ use Deimos\QueryBuilder\Adapter;
 use Deimos\QueryBuilder\QueryBuilder;
 use Deimos\QueryBuilder\RawQuery;
 
-class QueryTest extends \PHPUnit_Framework_TestCase
+class QueryTest extends \TestCase
 {
 
     private $regexp = [
@@ -93,7 +93,8 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             '', 0.0, 10, true
         );
 
-        if ($this->instructionMethod != 'insert') {
+        if ($this->instructionMethod !== 'insert')
+        {
             preg_match_all('~' . $this->regexp[1] . '~', $str, $testArray);
             unset($testArray[0]);
             $this->assertEquals(
@@ -190,7 +191,9 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
         $Q = $this->prepare('query');
 
-        (string)$Q->select([new RawQuery('COUNT(id) as count')])->orderBy(new RawQuery('RAND()'));
+        $query = (string)$Q->select([new RawQuery('COUNT(id) as count')])->orderBy(new RawQuery('RAND()'));
+
+        $this->assertFalse(empty($query));
     }
 
     /**
