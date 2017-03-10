@@ -10,13 +10,13 @@ use Deimos\QueryBuilder\Operator;
  *
  * @package Deimos\QueryBuilder\Instruction
  *
- * @method $this where($field, $operatorOrValue, $value = null)
- * @method $this whereOr($field, $operatorOrValue, $value = null)
- * @method $this whereXor($field, $operatorOrValue, $value = null)
+ * @method $this where($fieldOrStorage, $operatorOrValue = null, $value = null)
+ * @method $this whereOr($fieldOrStorage, $operatorOrValue = null, $value = null)
+ * @method $this whereXor($fieldOrStorage, $operatorOrValue = null, $value = null)
  *
- * @method $this having($field, $operatorOrValue, $value = null)
- * @method $this havingOr($field, $operatorOrValue, $value = null)
- * @method $this havingXor($field, $operatorOrValue, $value = null)
+ * @method $this having($fieldOrStorage, $operatorOrValue = null, $value = null)
+ * @method $this havingOr($fieldOrStorage, $operatorOrValue = null, $value = null)
+ * @method $this havingXor($fieldOrStorage, $operatorOrValue = null, $value = null)
  */
 class Select extends Instruction
 {
