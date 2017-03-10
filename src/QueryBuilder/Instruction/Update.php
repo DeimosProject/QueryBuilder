@@ -5,6 +5,15 @@ namespace Deimos\QueryBuilder\Instruction;
 use Deimos\QueryBuilder\Instruction;
 use Deimos\QueryBuilder\Operator;
 
+/**
+ * Class Update
+ *
+ * @package Deimos\QueryBuilder\Instruction
+ *          
+ * @method $this where($field, $operatorOrValue, $value = null)
+ * @method $this whereOr($field, $operatorOrValue, $value = null)
+ * @method $this whereXor($field, $operatorOrValue, $value = null)
+ */
 class Update extends Instruction
 {
 

@@ -5,6 +5,19 @@ namespace Deimos\QueryBuilder\Instruction;
 use Deimos\QueryBuilder\Instruction;
 use Deimos\QueryBuilder\Operator;
 
+/**
+ * Class Select
+ *
+ * @package Deimos\QueryBuilder\Instruction
+ *
+ * @method $this where($field, $operatorOrValue, $value = null)
+ * @method $this whereOr($field, $operatorOrValue, $value = null)
+ * @method $this whereXor($field, $operatorOrValue, $value = null)
+ *
+ * @method $this having($field, $operatorOrValue, $value = null)
+ * @method $this havingOr($field, $operatorOrValue, $value = null)
+ * @method $this havingXor($field, $operatorOrValue, $value = null)
+ */
 class Select extends Instruction
 {
 
