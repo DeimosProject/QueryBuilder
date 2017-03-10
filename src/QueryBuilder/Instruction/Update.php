@@ -9,10 +9,10 @@ use Deimos\QueryBuilder\Operator;
  * Class Update
  *
  * @package Deimos\QueryBuilder\Instruction
- *          
- * @method $this where($field, $operatorOrValue, $value = null)
- * @method $this whereOr($field, $operatorOrValue, $value = null)
- * @method $this whereXor($field, $operatorOrValue, $value = null)
+ * 
+ * @method $this where($fieldOrStorage, $operatorOrValue = null, $value = null)
+ * @method $this whereOr($fieldOrStorage, $operatorOrValue = null, $value = null)
+ * @method $this whereXor($fieldOrStorage, $operatorOrValue = null, $value = null)
  */
 class Update extends Instruction
 {
