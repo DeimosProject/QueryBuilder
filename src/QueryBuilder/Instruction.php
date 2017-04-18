@@ -21,13 +21,20 @@ abstract class Instruction
     protected $alias = true;
 
     /**
+     * @var string
+     */
+    protected $connection;
+
+    /**
      * Instruction constructor.
      *
      * @param QueryBuilder $builder
+     * @param string       $connection
      */
-    public function __construct(QueryBuilder $builder)
+    public function __construct(QueryBuilder $builder, $connection)
     {
         $this->builder = $builder;
+        $this->connection = $connection;
     }
 
     /**
