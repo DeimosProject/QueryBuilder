@@ -86,9 +86,9 @@ trait Where
     protected function buildWhereOne(...$args)
     {
         $equal = count($args) === 3;
-        $opr   = $equal ? $args[1] : '=';
-
         $_value = $args[1 + $equal];
+        $opr   = $equal ? $args[1] : (is_array($_value) ? 'in' : '=');
+
         $raw    = false;
 
         if ($args[1 + $equal] instanceof RawQuery || $args[1 + $equal] instanceof InstructionSelect)
